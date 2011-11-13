@@ -4,11 +4,11 @@
   <title><![CDATA[The Long Static Void]]></title>
   <link href="http://ejones.github.com/atom.xml" rel="self"/>
   <link href="http://ejones.github.com/"/>
-  <updated>2011-11-12T17:28:54-05:00</updated>
+  <updated>2011-11-13T02:51:53-05:00</updated>
   <id>http://ejones.github.com/</id>
   <author>
     <name><![CDATA[Evan Q Jones]]></name>
-    
+    <email><![CDATA[evan.q.jones@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
