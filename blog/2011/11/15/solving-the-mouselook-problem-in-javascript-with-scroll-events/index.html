@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>The Long Static Void</title>
+  <title>Solving the Mouselook Problem in JavaScript with Scroll Events - The Long Static Void</title>
   <meta name="author" content="Evan Q Jones">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ejones.github.com">
+  <link rel="canonical" href="http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -58,15 +58,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events/">Solving the Mouselook Problem in JavaScript With Scroll Events</a></h1>
+      <h1 class="entry-title">Solving the Mouselook Problem in JavaScript With Scroll Events</h1>
     
     
       <p class="meta">
@@ -89,7 +86,7 @@
   </header>
 
 
-  <div class="entry-content"><p>The inability to lock the mouse position in the browser in a JavaScript-only app poses a bit of a problem for implementing mouselook, for things like 3D (WebGL) First-Person games. The two workarounds I&#8217;ve seen are <a href="http://media.tojicode.com/q3bsp/">click-and-drag</a>, which is tiring, and what I&#8217;ll call <a href="http://www.ambiera.at/copperlicht/demos/demo_quakelevel_external.html">mouse-swing</a>, which is just nauseating. Now, it looks like the next generation of browsers are <a href="http://code.google.com/p/chromium/issues/detail?id=72754">working on a &#8220;Mouse Lock&#8221; API</a>, but until that time, I&#8217;ve found that with the special events &#8220;mousewheel&#8221; (in Chrome and Safari) and &#8220;MozMousePixelScroll&#8221; (in Firefox) you can actually achieve free-range mouselook, with, erm &hellip; a few caveats. <a href="http://ejones.github.com/scroll-mouselook-demo/">Here is a demo</a>.</p>
+<div class="entry-content"><p>The inability to lock the mouse position in the browser in a JavaScript-only app poses a bit of a problem for implementing mouselook, for things like 3D (WebGL) First-Person games. The two workarounds I&#8217;ve seen are <a href="http://media.tojicode.com/q3bsp/">click-and-drag</a>, which is tiring, and what I&#8217;ll call <a href="http://www.ambiera.at/copperlicht/demos/demo_quakelevel_external.html">mouse-swing</a>, which is just nauseating. Now, it looks like the next generation of browsers are <a href="http://code.google.com/p/chromium/issues/detail?id=72754">working on a &#8220;Mouse Lock&#8221; API</a>, but until that time, I&#8217;ve found that with the special events &#8220;mousewheel&#8221; (in Chrome and Safari) and &#8220;MozMousePixelScroll&#8221; (in Firefox) you can actually achieve free-range mouselook, with, erm &hellip; a few caveats. <a href="http://ejones.github.com/scroll-mouselook-demo/">Here is a demo</a>.</p>
 
 <ul>
 <li>It requires a trackpad or &#8220;trackpad-like&#8221; surface that has two-axis motion, like Apple trackpads or the <a href="http://www.apple.com/magicmouse/">Magic Mouse</a>. Fortunately, the Magic Mouse can be bought as an accessory and runs on Windows too.</li>
@@ -166,18 +163,61 @@
 
 <p>The fact that this all requires specific tech is unfortunate, but not unheard of in gaming (racing wheels, joysticks), and every MacBook has it built-in. But here&#8217;s hoping the browser vendors hurry up and get Mouse Lock implemented and make all of this irrelevant.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Evan Q Jones</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2011-11-15T22:05:00-05:00" pubdate data-updated="true">Nov 15<span>th</span>, 2011</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/gaming/'>Gaming</a>, <a class='category' href='/blog/categories/javascript/'>JavaScript</a>, <a class='category' href='/blog/categories/webgl/'>WebGL</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events/" data-via="" data-counturl="http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -201,7 +241,7 @@
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/ejones">@ejones</a> on Github
@@ -241,6 +281,7 @@
 
   
 </aside>
+
 
     </div>
   </div>

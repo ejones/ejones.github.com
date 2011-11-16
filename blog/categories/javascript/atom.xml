@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JavaScript | The Long Static Void]]></title>
+  <link href="http://ejones.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://ejones.github.com/"/>
+  <updated>2011-11-15T23:16:25-05:00</updated>
+  <id>http://ejones.github.com/</id>
+  <author>
+    <name><![CDATA[Evan Q Jones]]></name>
+    <email><![CDATA[evan.q.jones@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Solving the Mouselook Problem in JavaScript with Scroll Events]]></title>
+    <link href="http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events/"/>
+    <updated>2011-11-15T22:05:00-05:00</updated>
+    <id>http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events</id>
+    <content type="html"><![CDATA[<p>The inability to lock the mouse position in the browser in a JavaScript-only app poses a bit of a problem for implementing mouselook, for things like 3D (WebGL) First-Person games. The two workarounds I've seen are <a href="http://media.tojicode.com/q3bsp/">click-and-drag</a>, which is tiring, and what I'll call <a href="http://www.ambiera.at/copperlicht/demos/demo_quakelevel_external.html">mouse-swing</a>, which is just nauseating. Now, it looks like the next generation of browsers are <a href="http://code.google.com/p/chromium/issues/detail?id=72754">working on a "Mouse Lock" API</a>, but until that time, I've found that with the special events "mousewheel" (in Chrome and Safari) and "MozMousePixelScroll" (in Firefox) you can actually achieve free-range mouselook, with, erm &hellip; a few caveats. <a href="http://ejones.github.com/scroll-mouselook-demo/">Here is a demo</a>.</p>
+
+<ul>
+<li>It requires a trackpad or "trackpad-like" surface that has two-axis motion, like Apple trackpads or the <a href="http://www.apple.com/magicmouse/">Magic Mouse</a>. Fortunately, the Magic Mouse can be bought as an accessory and runs on Windows too.</li>
+<li>It requires a browser that supports two-dimensional mouse-scroll events (Chrome, Safari, Firefox. IE has "onmousewheel", but it's only vertical), <em>and</em> supports WebGL, which currently just leaves Chrome and Firefox.</li>
+</ul>
+
+
+<p>Anyway, the trick is that you can cancel mouse-scroll events, resulting in no motion of the cursor or the page, all the while getting (technology permitting) two-dimensional motions. For the demo, I built on the absolutely fantastic <a href="http://www.ambiera.com/copperlicht/index.html">CopperLicht WebGL engine</a>. The gist is that CL lets you give the cameras a custom mouse tracker, so you can essentially implement "virtual coordinates" based on, in this case, scroll offsets. That code ends up looking like this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">engine</span> <span class="o">=</span> <span class="nx">startCopperLichtFromFile</span><span class="p">(</span><span class="s1">&#39;theCanvas&#39;</span><span class="p">,</span> <span class="s1">&#39;copperlictdata/room.ccbjs&#39;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// ...&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">_Cursor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">cursor</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;&lt;</span><span class="nx">em</span><span class="o">&gt;</span><span class="nx">Cursor</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">engine</span><span class="p">;</span>
+</span><span class='line'><span class="nx">cursor</span> <span class="o">=</span> <span class="k">new</span> <span class="o">&lt;</span><span class="err">/em&gt;Cursor;</span>
+</span><span class='line'><span class="nx">cursor</span><span class="p">.</span><span class="nx">wheelSensitivity</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">function</span> <span class="nx">onMouseWheel</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="s1">&#39;wheelDeltaX&#39;</span> <span class="k">in</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">cursor</span><span class="p">.</span><span class="nx">MouseX</span> <span class="o">+=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">wheelDeltaX</span> <span class="o">*</span> <span class="nx">cursor</span><span class="p">.</span><span class="nx">wheelSensitivity</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">cursor</span><span class="p">.</span><span class="nx">MouseY</span> <span class="o">+=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">wheelDeltaY</span> <span class="o">*</span> <span class="nx">cursor</span><span class="p">.</span><span class="nx">wheelSensitivity</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;axis&#39;</span> <span class="k">in</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="nx">e</span><span class="p">.</span><span class="nx">HORIZONTAL_AXIS</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">cursor</span><span class="p">.</span><span class="nx">MouseX</span> <span class="o">+=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span> <span class="o">*</span> <span class="nx">cursor</span><span class="p">.</span><span class="nx">wheelSensitivity</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">cursor</span><span class="p">.</span><span class="nx">MouseY</span> <span class="o">+=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span> <span class="o">*</span> <span class="nx">cursor</span><span class="p">.</span><span class="nx">wheelSensitivity</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="nx">engine</span><span class="p">.</span><span class="nx">MainElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousewheel&#39;</span><span class="p">,</span> <span class="nx">onMouseWheel</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'><span class="nx">engine</span><span class="p">.</span><span class="nx">MainElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;MozMousePixelScroll&#39;</span><span class="p">,</span> <span class="nx">onMouseWheel</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">engine</span><span class="p">.</span><span class="nx">getScene</span><span class="p">().</span><span class="nx">getActiveCamera</span><span class="p">().</span><span class="nx">Animators</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">CursorControl</span> <span class="o">=</span> <span class="nx">cursor</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The actual code is <a href="http://github.com/ejones/scroll-mouselook-demo/">up on GitHub</a>.</p>
+
+<p>The fact that this all requires specific tech is unfortunate, but not unheard of in gaming (racing wheels, joysticks), and every MacBook has it built-in. But here's hoping the browser vendors hurry up and get Mouse Lock implemented and make all of this irrelevant.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://ejones.github.com/blog/2011/11/15/solving-the-mouselook-problem-in-javascript-with-scroll-events/
+        </loc>
+        <lastmod>2011-11-15T23:16:24-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://ejones.github.com/blog/archives/</loc>
-        <lastmod>2011-11-12T17:18:40-05:00</lastmod>
+        <lastmod>2011-11-15T23:16:24-05:00</lastmod>
     </url>
     <url>
         <loc>http://ejones.github.com/</loc>
-        <lastmod>2011-11-12T17:18:40-05:00</lastmod>
+        <lastmod>2011-11-15T23:16:24-05:00</lastmod>
     </url>
 </urlset>
